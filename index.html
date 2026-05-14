@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rocío Escobar | Generative AI Portfolio</title>
+  <style>
+    :root {
+      --teal-950: #062f35;
+      --teal-900: #083c43;
+      --teal-800: #0c5158;
+      --teal-700: #176b72;
+      --teal-500: #39a6a9;
+      --mint: #b9f5e8;
+      --yellow: #ffe45e;
+      --gold: #ffc44d;
+      --coral: #ff8a73;
+      --cream: #fff8e7;
+      --white: #ffffff;
+      --ink: #10272b;
+      --muted: #5d7377;
+      --glass: rgba(255, 255, 255, 0.12);
+      --line: rgba(255, 255, 255, 0.22);
+      --shadow: 0 24px 80px rgba(2, 26, 31, 0.28);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--cream);
+      background:
+        radial-gradient(circle at 12% 15%, rgba(255, 228, 94, 0.22), transparent 26rem),
+        radial-gradient(circle at 84% 4%, rgba(185, 245, 232, 0.18), transparent 30rem),
+        linear-gradient(135deg, #052a30 0%, #0b4c55 45%, #0b3038 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 85%);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: -20%;
+      z-index: -1;
+      background:
+        radial-gradient(circle, rgba(255,255,255,0.14) 0 2px, transparent 3px) 0 0 / 120px 120px,
+        radial-gradient(circle, rgba(255,228,94,0.13) 0 1px, transparent 2px) 60px 30px / 140px 140px;
+      opacity: 0.42;
+      animation: drift 22s linear infinite;
+    }
+
+    @keyframes drift { to { transform: translate3d(-70px, 45px, 0); } }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+      width: min(1160px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 14px;
+      z-index: 10;
+      width: min(1160px, calc(100% - 36px));
+      margin: 14px auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 12px 14px 12px 18px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 999px;
+      background: rgba(6, 47, 53, 0.74);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: var(--teal-950);
+      background: linear-gradient(135deg, var(--yellow), var(--mint));
+      box-shadow: 0 10px 25px rgba(255, 228, 94, 0.22);
+    }
+
+    .nav-links { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+    .nav-links a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: rgba(255,248,231,0.86);
+      font-size: 0.92rem;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+    .nav-links a:hover { background: rgba(255,255,255,0.13); color: var(--white); transform: translateY(-1px); }
+
+    .hero {
+      position: relative;
+      padding: 92px 0 42px;
+      min-height: 82vh;
+      display: grid;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      color: var(--mint);
+      font-weight: 750;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+    }
+
+    .pulse {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--yellow);
+      box-shadow: 0 0 0 0 rgba(255, 228, 94, 0.74);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 70% { box-shadow: 0 0 0 12px rgba(255, 228, 94, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 228, 94, 0); } }
+
+    h1 {
+      margin: 20px 0 18px;
+      max-width: 880px;
+      font-size: clamp(3.2rem, 9vw, 7.2rem);
+      line-height: 0.86;
+      letter-spacing: -0.08em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(110deg, #fff8e7 0%, #ffe45e 38%, #b9f5e8 78%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      max-width: 720px;
+      color: rgba(255,248,231,0.78);
+      font-size: clamp(1.05rem, 2vw, 1.32rem);
+      line-height: 1.75;
+    }
+
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      font-weight: 800;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .btn.primary {
+      color: #10272b;
+      background: linear-gradient(135deg, var(--yellow), var(--gold));
+      box-shadow: 0 18px 42px rgba(255, 196, 77, 0.22);
+    }
+    .btn.secondary { background: rgba(255,255,255,0.08); color: var(--cream); }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 22px 55px rgba(0,0,0,0.22); }
+
+    .hero-card {
+      position: relative;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(160deg, rgba(255,255,255,0.18), rgba(255,255,255,0.06)),
+        linear-gradient(135deg, rgba(57,166,169,0.28), rgba(255,228,94,0.12));
+      border: 1px solid rgba(255,255,255,0.24);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      width: 230px;
+      height: 230px;
+      border-radius: 50%;
+      top: -90px;
+      right: -70px;
+      background: radial-gradient(circle, rgba(255,228,94,0.46), transparent 68%);
+    }
+
+    .avatar {
+      position: relative;
+      display: block;
+      width: 190px;
+      height: 190px;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center;
+      border: 8px solid rgba(255, 248, 231, 0.88);
+      box-shadow: 0 0 0 12px rgba(255, 228, 94, 0.18), 0 28px 80px rgba(0,0,0,0.28);
+      background: linear-gradient(135deg, var(--yellow), var(--mint));
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      position: relative;
+    }
+
+    .stat {
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: rgba(6, 47, 53, 0.48);
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+    .stat strong { display: block; color: var(--yellow); font-size: 1.35rem; }
+    .stat span { display: block; color: rgba(255,248,231,0.74); font-size: 0.88rem; margin-top: 3px; }
+
+    section { padding: 78px 0; }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: 0.7fr 1fr;
+      gap: 26px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+
+    .kicker {
+      color: var(--yellow);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 8px 0 0;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .section-intro {
+      margin: 0;
+      color: rgba(255,248,231,0.74);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    .panel {
+      border-radius: var(--radius-xl);
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.17);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .about-panel {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+      padding: 26px;
+    }
+
+    .bio-card {
+      padding: 28px;
+      border-radius: 28px;
+      background: linear-gradient(150deg, rgba(255,248,231,0.96), rgba(232,255,250,0.9));
+      color: var(--ink);
+    }
+
+    .bio-card h3 { margin: 0 0 12px; font-size: 1.75rem; letter-spacing: -0.03em; }
+    .bio-card p { color: #36585d; line-height: 1.72; margin: 0 0 16px; }
+
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .chip {
+      padding: 9px 12px;
+      border-radius: 999px;
+      color: #0b3e45;
+      background: rgba(57,166,169,0.14);
+      border: 1px solid rgba(57,166,169,0.25);
+      font-weight: 750;
+      font-size: 0.88rem;
+    }
+
+    .focus-list {
+      display: grid;
+      gap: 14px;
+      padding: 6px;
+    }
+
+    .focus-item {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(6, 47, 53, 0.42);
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+    .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,228,94,0.18);
+      color: var(--yellow);
+      font-size: 1.2rem;
+    }
+    .focus-item h4 { margin: 0 0 5px; font-size: 1.05rem; }
+    .focus-item p { margin: 0; color: rgba(255,248,231,0.72); line-height: 1.55; }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+
+    .course-card {
+      position: relative;
+      min-height: 230px;
+      padding: 24px;
+      border-radius: 26px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.17);
+      overflow: hidden;
+      transition: transform .2s ease, background .2s ease;
+    }
+    .course-card:hover { transform: translateY(-6px); background: rgba(255,255,255,0.14); }
+    .course-card::after {
+      content: "";
+      position: absolute;
+      width: 130px;
+      height: 130px;
+      right: -42px;
+      bottom: -50px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,228,94,0.32), transparent 70%);
+    }
+    .course-card .num { color: var(--yellow); font-weight: 950; letter-spacing: 0.1em; font-size: 0.78rem; }
+    .course-card h3 { margin: 12px 0 10px; font-size: 1.32rem; line-height: 1.08; letter-spacing: -0.03em; }
+    .course-card p { margin: 0; color: rgba(255,248,231,0.72); line-height: 1.6; }
+
+    .feature-ribbon {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .feature {
+      padding: 18px;
+      border-radius: 22px;
+      color: var(--ink);
+      background: linear-gradient(135deg, rgba(255,228,94,0.96), rgba(185,245,232,0.9));
+      min-height: 112px;
+    }
+    .feature strong { display: block; font-size: 1.02rem; margin-bottom: 6px; }
+    .feature span { color: rgba(16,39,43,0.7); line-height: 1.45; }
+
+    .submissions {
+      position: relative;
+      padding: 26px;
+      overflow: hidden;
+    }
+
+    .submission-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .submission {
+      position: relative;
+      min-height: 200px;
+      padding: 20px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: transform .2s ease, border-color .2s ease;
+    }
+    .submission:hover { transform: translateY(-5px); border-color: rgba(255,228,94,0.55); }
+    .week {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      color: #10272b;
+      background: linear-gradient(135deg, var(--yellow), var(--gold));
+      font-weight: 950;
+      box-shadow: 0 16px 32px rgba(255,196,77,0.18);
+    }
+    .submission h3 { margin: 18px 0 9px; font-size: 1.08rem; line-height: 1.2; }
+    .submission p { margin: 0 0 16px; color: rgba(255,248,231,0.7); line-height: 1.5; font-size: 0.95rem; }
+    .placeholder {
+      position: absolute;
+      left: 20px;
+      bottom: 18px;
+      display: inline-flex;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(185,245,232,0.12);
+      color: var(--mint);
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .capstone {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .capstone-card {
+      padding: 26px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(255,228,94,0.18), rgba(185,245,232,0.12));
+      border: 1px solid rgba(255,255,255,0.16);
+    }
+    .capstone-card h3 { margin: 0 0 10px; font-size: 1.45rem; }
+    .capstone-card p { margin: 0; color: rgba(255,248,231,0.72); line-height: 1.62; }
+
+    .footer {
+      padding: 42px 0 58px;
+      color: rgba(255,248,231,0.72);
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(255,255,255,0.14);
+    }
+    .social { display: flex; gap: 10px; flex-wrap: wrap; }
+    .social a {
+      padding: 10px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: var(--cream);
+      font-weight: 760;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid, .about-panel, .section-heading, .capstone { grid-template-columns: 1fr; }
+      .course-grid, .submission-grid { grid-template-columns: repeat(2, 1fr); }
+      .feature-ribbon { grid-template-columns: repeat(2, 1fr); }
+      .nav { align-items: flex-start; border-radius: 26px; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 620px) {
+      h1 { font-size: 3.35rem; }
+      .hero { padding-top: 54px; }
+      .course-grid, .submission-grid, .feature-ribbon, .stat-grid { grid-template-columns: 1fr; }
+      .about-panel, .submissions { padding: 16px; }
+      .avatar { width: 150px; height: 150px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" aria-label="Main navigation">
+    <a class="brand" href="#top" aria-label="Rocío Escobar portfolio home">
+      <span class="brand-mark">AI</span>
+      <span>Rocío Escobar</span>
+    </a>
+    <div class="nav-links">
+      <a href="#about">About me</a>
+      <a href="#course">Course</a>
+      <a href="#submissions">Weekly submissions</a>
+      <a href="#connect">Connect</a>
+    </div>
+  </nav>
+
+  <main id="top">
+    <header class="hero wrap">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow"><span class="pulse"></span> Generative AI for Work & Research</span>
+          <h1><span class="gradient-text">AI Portfolio</span><br />for spatial insight.</h1>
+          <p class="lead">
+            A one-page showcase of my learning journey through GRAPH Courses' eight-week Generative AI for Work & Research program, connecting responsible AI automation with geospatial analysis, research workflows, and public-health impact.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#submissions">Explore submissions →</a>
+            <a class="btn secondary" href="#course">View course map</a>
+          </div>
+        </div>
+        <aside class="hero-card" aria-label="Portfolio summary card">
+          <img class="avatar" src="https://raw.githubusercontent.com/RocioEsc/RocioEsc.github.io/main/docs/profile.jpeg" alt="Portrait of Rocío Escobar" />
+          <div class="stat-grid">
+            <div class="stat"><strong>GIS</strong><span>Geographic information systems</span></div>
+            <div class="stat"><strong>WHO</strong><span>Geneva-based public health work</span></div>
+            <div class="stat"><strong>8</strong><span>Weeks of GenAI practice</span></div>
+            <div class="stat"><strong>No-code</strong><span>Responsible task automation</span></div>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <section id="about" class="wrap">
+      <div class="section-heading">
+        <div>
+          <div class="kicker">About me</div>
+          <h2>GIS analyst bringing maps, data, and decisions closer together.</h2>
+        </div>
+        <p class="section-intro">
+          My work sits at the intersection of spatial analysis, public health, and practical digital tools. This portfolio highlights how I am extending that foundation with generative AI workflows that are transparent, useful, and responsibly designed.
+        </p>
+      </div>
+      <div class="panel about-panel">
+        <article class="bio-card">
+          <h3>Rocío Escobar</h3>
+          <p>
+            I am an experienced GIS Analyst based in Geneva, Switzerland, with long-running work in geographic information systems at the World Health Organization. I use spatial thinking to transform complex data into clearer patterns, context, and action.
+          </p>
+          <p>
+            Through this course, I am exploring how generative AI can support research productivity, automate repetitive tasks, and communicate technical work more clearly without losing rigor or accountability.
+          </p>
+          <div class="chips" aria-label="Core focus areas">
+            <span class="chip">GIS & mapping</span>
+            <span class="chip">Public health data</span>
+            <span class="chip">Research workflows</span>
+            <span class="chip">AI-assisted analysis</span>
+            <span class="chip">Responsible automation</span>
+          </div>
+        </article>
+        <div class="focus-list">
+          <div class="focus-item">
+            <div class="icon">⌁</div>
+            <div><h4>Spatial intelligence</h4><p>Turning location-based data into insight for planning, monitoring, and decision support.</p></div>
+          </div>
+          <div class="focus-item">
+            <div class="icon">✦</div>
+            <div><h4>AI for productivity</h4><p>Testing no-code and assistant-based workflows for analysis, documentation, visualization, and reporting.</p></div>
+          </div>
+          <div class="focus-item">
+            <div class="icon">◈</div>
+            <div><h4>Communication with integrity</h4><p>Designing clear outputs that make methods, assumptions, and limitations easy to understand.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="course" class="wrap">
+      <div class="section-heading">
+        <div>
+          <div class="kicker">About the course</div>
+          <h2>An eight-week guided program for responsible AI task automation.</h2>
+        </div>
+        <p class="section-intro">
+          The course focuses on no-code AI tools for work and research productivity, with weekly live workshops, help sessions, community forums, feedback, capstone coaching, and a shareable certificate.
+        </p>
+      </div>
+      <div class="course-grid">
+        <article class="course-card"><div class="num">MODULE 01</div><h3>Websites, documents & presentations</h3><p>LLM foundations, Markdown, HTML, LaTeX, research websites, and AI-assisted communication assets.</p></article>
+        <article class="course-card"><div class="num">MODULE 02</div><h3>AI-automated data analysis</h3><p>Code Interpreter, dashboards, Julius, data transformation, reports, visualizations, and spreadsheet automations.</p></article>
+        <article class="course-card"><div class="num">MODULE 03</div><h3>Research & text analysis</h3><p>Literature reviews, classification, sentiment analysis, knowledge maps, summarization, and synthesis systems.</p></article>
+        <article class="course-card"><div class="num">MODULE 04</div><h3>Custom GPTs and chatbots</h3><p>LLM chat architecture, context windows, RAG systems, Botpress, and research knowledge bases.</p></article>
+        <article class="course-card"><div class="num">MODULE 05</div><h3>AI for task automation</h3><p>Responsible AI agents, email workflows, complex automation flows, and browser-based task support.</p></article>
+        <article class="course-card"><div class="num">MODULE 06</div><h3>Communication & outreach</h3><p>Research summaries, scientific figures, diagrams, video abstracts, visualization prompts, and content scheduling.</p></article>
+      </div>
+      <div class="feature-ribbon" aria-label="Course features">
+        <div class="feature"><strong>Live workshops</strong><span>Guided weekly practice with instructors.</span></div>
+        <div class="feature"><strong>Personal feedback</strong><span>Assessment feedback and capstone coaching.</span></div>
+        <div class="feature"><strong>Community</strong><span>Private forums and shared learning space.</span></div>
+        <div class="feature"><strong>Final showcase</strong><span>A capstone project and public-facing portfolio.</span></div>
+      </div>
+    </section>
+
+    <section id="submissions" class="wrap">
+      <div class="section-heading">
+        <div>
+          <div class="kicker">Weekly submissions</div>
+          <h2>Course artifacts will live here.</h2>
+        </div>
+        <p class="section-intro">
+          These cards are placeholders for now. Each will become a direct link to the corresponding weekly assignment, project, dashboard, chatbot, or capstone material as the course progresses.
+        </p>
+      </div>
+      <div class="panel submissions">
+        <div class="submission-grid">
+          <article class="submission"><div class="week">W1</div><h3>Portfolio website</h3><p>Websites, documents, presentations, and structured AI-assisted outputs.</p><span class="placeholder">Link coming soon</span></article>
+          <article class="submission"><div class="week">W2</div><h3>Automated data analysis</h3><p>Exploratory analysis, visualization, and reproducible reporting workflows.</p><span class="placeholder">Link coming soon</span></article>
+          <article class="submission"><div class="week">W3</div><h3>Research & text analysis</h3><p>Literature review, synthesis, classification, and knowledge organization.</p><span class="placeholder">Link coming soon</span></article>
+          <article class="submission"><div class="week">W4</div><h3>Custom GPT or chatbot</h3><p>A purpose-built assistant using structured knowledge and clear guardrails.</p><span class="placeholder">Link coming soon</span></article>
+          <article class="submission"><div class="week">W5</div><h3>Task automation</h3><p>Responsible workflows for recurring work, communication, or monitoring.</p><span class="placeholder">Link coming soon</span></article>
+          <article class="submission"><div class="week">W6</div><h3>Communication asset</h3><p>AI-supported outreach, visuals, summaries, or explanatory materials.</p><span class="placeholder">Link coming soon</span></article>
+          <article class="submission"><div class="week">W7</div><h3>Capstone project</h3><p>Final AI solution, tool, or presentation refined through peer feedback.</p><span class="placeholder">Link coming soon</span></article>
+          <article class="submission"><div class="week">W8</div><h3>Showcase</h3><p>Public-facing presentation of lessons, methods, and final outcomes.</p><span class="placeholder">Link coming soon</span></article>
+        </div>
+        <div class="capstone">
+          <div class="capstone-card"><h3>Capstone direction</h3><p>A practical AI workflow that supports spatial, research, or public-health data work while keeping transparency and human review at the center.</p></div>
+          <div class="capstone-card"><h3>Portfolio principle</h3><p>Every submission will document the question, tools used, output, and reflection so the work is useful, reusable, and easy to evaluate.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="connect" class="footer wrap">
+    <div class="footer-inner">
+      <div>
+        <strong>Rocío Escobar</strong><br />Generative AI for Work & Research portfolio · Built for learning, experimentation, and responsible practice.
+      </div>
+      <div class="social" aria-label="Professional links">
+        <a href="https://linkedin.com/in/rocioescobar" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href="https://github.com/RocioEsc" target="_blank" rel="noreferrer">GitHub</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
